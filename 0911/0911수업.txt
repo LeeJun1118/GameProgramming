@@ -1,0 +1,68 @@
+이번주부터 본격적으로 slack&trello에 올리면 된다.
+
+수업 자료 자기 계정 파서 구글 드라이브에 올리기
+
+협업툴을 이용하여 게임 개발 과정을 정리 
+
+지금 해야할 일 허접한 게임을 search 하는 것
+
+내가 얼마만큼 바꿨는가 업그레이드 했는 가가 채점의 기준
+
+찾은 게임을 다운 받아서 협업툴에 올리자 
+
+체계적으로 하나를 업그레이드 시켜라
+
+visual studio 로 하는 것도 괜찮다.
+
+Web
+전  세계에 데이터 흐르는 것 보여줌
+https://gs.statcounter.com/  레포트 쓸 때 필요한 사이트
+
+http://html5test.com
+->compare
+
+css
+http://www.csszengarden.com/
+-> view all designs
+
+chrome 확장 프로그램
+
+html5 	구조 	M
+css	표현	V
+jacascript	동작 	C
+
+
+브라우저에는 엔진이 있다.
+각 브라우저마다 쓰는 엔진이 다르다
+
+
+*네이티브앱
+*웹앱
+*하이브리드앱
+
+
+브라우저 내에 탑제 되어 있는 것들
+
+
+bootstrap
+웹페이지 만들 때 간단하게 꾸밀 수 있도록 css를 간단하게 제공해주는 것
+https://www.w3schools.com/bootstrap4/
+CDN
+Download
+
+# 의 의미는 자신의 파일 
+다른 페이지로 바꾸고 싶으면 #을 다른 페이지의 주소로 바꾸면 된다.
+
+
+http://bmac.kr/
+
+
+https://www.w3schools.com/bootstrap4/bootstrap_forms.asp
+중에 하나를 선택해서 Bootstarp.html 파일로 깃에 0911로 올리기
+
+
+
+
+
+
+
