@@ -15,12 +15,12 @@
             this.ctx = this.c.getContext("2d");
             this.color = "rgba(20,20,20,.7)"; //배경색 지정 (css) - 검은색
 
-			//배열 생성
+            //배열 생성
             this.bullets = [];
             this.enemyBullets = [];
             this.enemies = [];
             this.particles = [];//터지는 효과를 위한 배열
-			//인덱스 변수 생성
+            //인덱스 변수 생성
             this.bulletIndex = 0;
             this.enemyBulletIndex = 0;
             this.enemyIndex = 0;
@@ -38,8 +38,8 @@
             this.shooting = false;
             this.oneShot = false;
             this.isGameOver = false;
-			//적을 움직이기 위한 애니메이션
-            this.requestAnimationFrame = window.requestAnimationFrame||window.webkitRequestAnimationFrame;
+            //적을 움직이기 위한 애니메이션
+            this.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
             //적 생성 for루프 0 ~ 6
             for (var i = 0; i < this.maxEnemies; i++) {
                 new Enemy();
@@ -52,14 +52,14 @@
 
 
         binding: function () {
-        	// key설정 함수
+            // key설정 함수
             window.addEventListener("keydown", this.buttonDown);
             window.addEventListener("keyup", this.buttonUp);
             window.addEventListener("keypress", this.keyPressed);
             this.c.addEventListener("click", this.clicked);
         },
 
-		// 마우스 클릭 했을때 일시 정지/해제
+        // 마우스 클릭 했을때 일시 정지/해제
         clicked: function () {
             if (!Game.paused) { //일시 정지가 아니라면 일시정지
                 Game.pause();
@@ -74,10 +74,10 @@
             }
         },
 
-		// spacebar 계속 누르는 상태 함수
+        // spacebar 계속 누르는 상태 함수
         keyPressed: function (e) {
             if (e.keyCode === 32) {
-            	// !Game.player.invincible 없어도 실행에 문제 없음
+                // !Game.player.invincible 없어도 실행에 문제 없음
                 if (!Game.player.invincible && !Game.oneShot) {
                     Game.player.shoot(); //총알 발사
                     Game.oneShot = true; //한번 발사하는 상태를 true로 바꾼다
@@ -90,9 +90,9 @@
             }
         },
 
-		// 버튼을 누르다가 땠을 때
+        // 버튼을 누르다가 땠을 때
         buttonUp: function (e) {
-        	// spacebar
+            // spacebar
             if (e.keyCode === 32) {
                 Game.shooting = false;
                 //Game.oneShot = false;
@@ -108,9 +108,9 @@
             }
         },
 
-		// 버튼을 눌렀을 떄
+        // 버튼을 눌렀을 떄
         buttonDown: function (e) {
-			// spacebar
+            // spacebar
             if (e.keyCode === 32) {
                 Game.shooting = true;
             }
@@ -124,15 +124,15 @@
             }
         },
 
-		// 랜덤 함수 생성 min,max를 인수로 받아서 계산
+        // 랜덤 함수 생성 min,max를 인수로 받아서 계산
         random: function (min, max) {
-        	// Math.random 함수는 0 ~ 1까지의 실수를 반환함으로 정수로 나타내기 위해 곱하기를 한후 Math.floor로 정수화 해야한다.
+            // Math.random 함수는 0 ~ 1까지의 실수를 반환함으로 정수로 나타내기 위해 곱하기를 한후 Math.floor로 정수화 해야한다.
             return Math.floor(Math.random() * (max - min) + min);
         },
 
-		// 무적 모드 함수
+        // 무적 모드 함수
         invincibleMode: function (s) {
-        	// 무적으로 만들고
+            // 무적으로 만들고
             this.player.invincible = true;
             // s 시간뒤에 함수를 실행 시킨다.
             setTimeout(function () {
@@ -140,7 +140,7 @@
             }, s);
         },
 
-		// 충돌 함수
+        // 충돌 함수
         collision: function (a, b) {
             return !(
                 ((a.y + a.height) < (b.y)) ||  // a의 y좌표 + 높이가 < b의 y좌표 보다 작거나
@@ -150,29 +150,29 @@
             )
         },
 
-		// 배경 초기화
+        // 배경 초기화
         clear: function () {
             this.ctx.fillStyle = Game.color;
             this.ctx.fillRect(0, 0, this.c.width, this.c.height);
         },
 
-		//일시 정지 함수
+        //일시 정지 함수
         pause: function () {
             this.paused = true;
         },
-		//일시 정지 해제 함수
+        //일시 정지 해제 함수
         unPause: function () {
             this.paused = false;
         },
 
-		//게임 오버 함수
+        //게임 오버 함수
         gameOver: function () {
             this.isGameOver = true;
             this.clear();	//배경을 다 지움
             var message = "Game Over";
             var message2 = "Score: " + Game.score;
             var message3 = "Click or press Spacebar to Play Again";
-            this.pause();	//일시 정지
+            this.pause();	//일시 정지 함수 호출
             this.ctx.fillStyle = "white";
             this.ctx.font = "bold 30px Lato, sans-serif";
             this.ctx.fillText(message, this.c.width / 2 - this.ctx.measureText(message).width / 2, this.c.height / 2 - 50);
@@ -180,14 +180,14 @@
             this.ctx.font = "bold 16px Lato, sans-serif";
             this.ctx.fillText(message3, this.c.width / 2 - this.ctx.measureText(message3).width / 2, this.c.height / 2 + 30);
         },
-		// 점수판 함수
+        // 점수판 함수
         updateScore: function () {
             this.ctx.fillStyle = "white";
             this.ctx.font = "16px Lato, sans-serif";
             this.ctx.fillText("Score: " + this.score, 8, 20);
             this.ctx.fillText("Lives: " + (this.maxLives - this.life), 8, 40);
         },
-		//게임 루프
+        //루프 : 게임이 실행되는 동안 계속 돌아가야할 함수
         loop: function () {
             if (!Game.paused) {	//일시정지가 아니라면
                 Game.clear();	//배경 초기화
@@ -195,43 +195,45 @@
                     var currentEnemy = Game.enemies[i];
                     currentEnemy.draw();
                     currentEnemy.update();
-                    // 게임 프레임을 랜덤의 적 슈팅 스피드로 나눈 나머지가 0이면 발사사
-                   if (Game.currentFrame % currentEnemy.shootingSpeed === 0) {
+                    // 게임 프레임을 랜덤의 적 슈팅 스피드(30~80)로 나눈 나머지가 0이면 발사
+                    if (Game.currentFrame % currentEnemy.shootingSpeed === 0) {
                         currentEnemy.shoot();
                     }
                 }
-                // Game.enemyBullets배열을 하나씩 꺼내서 그린다
+                // Game.enemyBullets(적 총알)를 하나씩  그린다
                 for (var x in Game.enemyBullets) {
                     Game.enemyBullets[x].draw();
                     Game.enemyBullets[x].update();
                 }
+                // 플레이어 총알 그리기
                 for (var z in Game.bullets) {
                     Game.bullets[z].draw();
                     Game.bullets[z].update();
                 }
                 //player 무적 상태라면
                 if (Game.player.invincible) {
-                	// 0.02초 마다 한번씩 그림
+                    // 0.02초 마다 한번씩 그림 깜빡이는 효과
                     if (Game.currentFrame % 20 === 0) {
                         Game.player.draw();
                     }
-                } else {
+                } else { // 무적이 아니면 그린다.
                     Game.player.draw();
                 }
-                // 터지는 효과 그리기
+                // 터지는 효과 그리기 particles의 수만큼 그리기
                 for (var i in Game.particles) {
                     Game.particles[i].draw();
                 }
                 //지속적으로 업데이트
                 Game.player.update();
                 Game.updateScore();
+                //frame속도를 유지시켜준다. 일정 시간마다 함수를 호출(0.0167초)
                 Game.currentFrame = Game.requestAnimationFrame.call(window, Game.loop);
             }
         }
 
     };//////게임 함수 끝
 
-
+    // Player Initialize 함수
     var Player = function () {
         this.width = 60;
         this.height = 20;
@@ -243,9 +245,10 @@
         this.invincible = false;
         this.color = "white";
     };
-
-
+    // prototype으로 die함수 생성
     Player.prototype.die = function () {
+        // 생명 하나를 사용하게 되면 최대 사용 가능 생명 수보다
+        // 작을 때까지 무적 상태 후 life를 1증가 시킨다.
         if (Game.life < Game.maxLives) {
             Game.invincibleMode(2000);
             Game.life++;
@@ -254,124 +257,125 @@
             Game.gameOver();
         }
     };
-
-
+    // prototype으로 draw 생성
     Player.prototype.draw = function () {
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-
-
+    // prototype update : player 동작 제어 함수
     Player.prototype.update = function () {
+        // Player의 x좌표가 0보다 크고 movingleft가 true일때
         if (this.movingLeft && this.x > 0) {
-            this.x -= this.speed;
+            this.x -= this.speed;   //  좌로 이동
         }
+        //player의 x좌표 + Player의 폭이 게임 캔버스 폭보다 작고 movingRight가 true 일때
         if (this.movingRight && this.x + this.width < Game.c.width) {
             this.x += this.speed;
         }
+        // frame을 10으로 나눈 나머지가 0 이고 shooting이 true일때
         if (Game.shooting && Game.currentFrame % 10 === 0) {
             this.shoot();
         }
         for (var i in Game.enemyBullets) {
+            // 발사된 적 총알들을 currentBullet에 넣어 검사
             var currentBullet = Game.enemyBullets[i];
+            // player와 적 총알이 충돌했고 player상태가 무적이 아니라면
             if (Game.collision(currentBullet, this) && !Game.player.invincible) {
                 this.die();
-                delete Game.enemyBullets[i];
+                delete Game.enemyBullets[i]; // 충돌한 총알 삭제
             }
         }
     };
 
-
     Player.prototype.shoot = function () {
+        // 총알 생성후 총알 수 1증가
         Game.bullets[Game.bulletIndex] = new Bullet(this.x + this.width / 2);
         Game.bulletIndex++;
     };
-
-
+    //Bullet Initialize
     var Bullet = function (x) {
         this.width = 8;
         this.height = 20;
         this.x = x;
         this.y = Game.c.height - 10;
-        this.vy = 8;
+        this.vy = 8; //총알 속도
         this.index = Game.bulletIndex;
         this.active = true;
         this.color = "white";
-
     };
-
-
+    //prototype draw 생성
     Bullet.prototype.draw = function () {
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-
-
+    //bullet의 이동 동작
     Bullet.prototype.update = function () {
-        this.y -= this.vy;
-        if (this.y < 0) {
+        this.y -= this.vy;  // 위로 움직임
+        if (this.y < 0) {  //게임 화면을 넘어가면 삭제
             delete Game.bullets[this.index];
         }
     };
 
-
     var Enemy = function () {
         this.width = 60;
         this.height = 20;
+        //게임 화면 내의 x좌표에서 랜덤한 위치에 생성
         this.x = Game.random(0, (Game.c.width - this.width));
         this.y = Game.random(10, 40);
-        this.vy = Game.random(1, 3) * .1;
-        this.index = Game.enemyIndex;
-        Game.enemies[Game.enemyIndex] = this;
-        Game.enemyIndex++;
+        this.vy = Game.random(1, 3) * .1; //랜덤한 속도로 아래로 내려옴
+        this.index = Game.enemyIndex; //생성된 적의 수를 업데이트 해준다
+        Game.enemies[Game.enemyIndex] = this; //enemyIndex번째에 적 생성
+        Game.enemyIndex++; //적 생성후 index 1 증가
         this.speed = Game.random(2, 3);
         this.shootingSpeed = Game.random(30, 80);
+        // 0 ~ 1 까지의 실수들이 0.5보다 작으면 true 반환하여 왼쪽으로 움직임 크면 false 반환
         this.movingLeft = Math.random() < 0.5 ? true : false;
+        //랜덤한 색상 설정
         this.color = "hsl(" + Game.random(0, 360) + ", 60%, 50%)";
-
     };
-
-
+    // 적 그리기
     Enemy.prototype.draw = function () {
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
-
-
+    // 적 동작 함수
     Enemy.prototype.update = function () {
         if (this.movingLeft) {
             if (this.x > 0) {
                 this.x -= this.speed;
-                this.y += this.vy;
-            } else {
+                this.y += this.vy;  //점점 밑으로 내려옴
+            } else { //계속 가다가 벽을 만나면 오른쪽으로 이동
                 this.movingLeft = false;
             }
         } else {
             if (this.x + this.width < Game.c.width) {
                 this.x += this.speed;
-                this.y += this.vy;
-            } else {
+                this.y += this.vy;  //점점 밑으로 내려옴
+            } else { //벽을 만나면 왼쪽으로 이동
                 this.movingLeft = true;
             }
         }
 
         for (var i in Game.bullets) {
             var currentBullet = Game.bullets[i];
+            //플레이어의 총알이 움직이는 적에게 충돌시
             if (Game.collision(currentBullet, this)) {
-                this.die();
-                delete Game.bullets[i];
+                this.die(); //적 죽음
+                delete Game.bullets[i]; //플레이어 총알 삭제
             }
         }
     };
 
     Enemy.prototype.die = function () {
-        this.explode();
+        this.explode(); //터지는 효과 함수 호출
         delete Game.enemies[this.index];
         Game.score += 15;
+        //현재 살아있는 적의 수가 1이상이면 적 - 1 을 하고 아니면 0
         Game.enemiesAlive = Game.enemiesAlive > 1 ? Game.enemiesAlive - 1 : 0;
+        // 살아있는 적의 수가 최대 적수 보다 작으면
         if (Game.enemiesAlive < Game.maxEnemies) {
-            Game.enemiesAlive++;
-            setTimeout(function () {
+            Game.enemiesAlive++; // 살아있는 적의 수를 늘인다
+            setTimeout(function () { //2초에 한번씩 생성
                 new Enemy();
             }, 2000);
         }
