@@ -72,7 +72,7 @@
         },
 
         keyPressed: function (e) {
-            if (e.keyCode == 32) {
+            if (e.keyCode === 32) {
                 if (!Game.player.invincible && !Game.oneShot) {
                     Game.player.shoot();
                     Game.oneShot = true;
@@ -85,27 +85,27 @@
         },
 
         buttonUp: function (e) {
-            if (e.keyCode == 32) {
+            if (e.keyCode === 32) {
                 Game.shooting = false;
                 Game.oneShot = false;
                 e.preventDefault();
             }
-            if (e.keyCode == 37 || e.keyCode == 65) {
+            if (e.keyCode === 37 || e.keyCode === 65) {
                 Game.player.movingLeft = false;
             }
-            if (e.keyCode == 39 || e.keyCode == 68) {
+            if (e.keyCode === 39 || e.keyCode === 68) {
                 Game.player.movingRight = false;
             }
         },
 
         buttonDown: function (e) {
-            if (e.keyCode == 32) {
+            if (e.keyCode === 32) {
                 Game.shooting = true;
             }
-            if (e.keyCode == 37 || e.keyCode == 65) {
+            if (e.keyCode === 37 || e.keyCode === 65) {
                 Game.player.movingLeft = true;
             }
-            if (e.keyCode == 39 || e.keyCode == 68) {
+            if (e.keyCode === 39 || e.keyCode === 68) {
                 Game.player.movingRight = true;
             }
         },
@@ -183,7 +183,7 @@
                     currentEnemy.update();
                     
                     // 게임 프레임%적발사속도(30~80)
-                    if (Game.currentFrame % currentEnemy.shootingSpeed == 0) {
+                    if (Game.currentFrame % currentEnemy.shootingSpeed === 0) {
                         //적 총알 발사
                         currentEnemy.shoot();
                     }
