@@ -375,23 +375,25 @@
         // 살아있는 적의 수가 최대 적수 보다 작으면
         if (Game.enemiesAlive < Game.maxEnemies) {
             Game.enemiesAlive++; // 살아있는 적의 수를 늘인다
-            setTimeout(function () { //2초에 한번씩 생성
-                new Enemy();
-            }, 2000);
+            setTimeout(function () { //일정 시간마다 함수 실행
+                new Enemy();    //적 생성
+            }, 2000);   //2초마다
         }
 
     };
-
+    //터지는 효과
     Enemy.prototype.explode = function () {
         for (var i = 0; i < Game.maxParticles; i++) {
+            //10개의 입자 생성 적의 (현재 x좌표 + 적의 폭)/2 ,y좌표 , 색
             new Particle(this.x + this.width / 2, this.y, this.color);
         }
     };
 
     Enemy.prototype.shoot = function () {
+        // 현재 적 위치의 총알 (x좌표 + 폭)/2 , 색깔 지정
         new EnemyBullet(this.x + this.width / 2, this.y, this.color);
     };
-
+    // 적 총알 init
     var EnemyBullet = function (x, y, color) {
         this.width = 8;
         this.height = 20;
@@ -404,48 +406,51 @@
         Game.enemyBulletIndex++;
     };
 
+    // 총알 형태 init
     EnemyBullet.prototype.draw = function () {
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
 
+    // 적 총알 이동 init
     EnemyBullet.prototype.update = function () {
-        this.y += this.vy;
+        this.y += this.vy; //총알 속도
         if (this.y > Game.c.height) {
+            // canvas크기를 넘어가면 삭제
             delete Game.enemyBullets[this.index];
         }
     };
-
-
+    // 입자 init
     var Particle = function (x, y, color) {
         this.x = x;
         this.y = y;
-        this.vx = Game.random(-5, 5);
-        this.vy = Game.random(-5, 5);
+        this.vx = Game.random(-5, 5); //입자 속도
+        this.vy = Game.random(-5, 5);  // 입자 속도
         this.color = color || "orange";
         Game.particles[Game.particleIndex] = this;
         this.id = Game.particleIndex;
-        Game.particleIndex++;
+        Game.particleIndex++; //생성되면 1 증가
         this.life = 0;
-        this.gravity = .05;
+        this.gravity = .05; //떨어지는 빠르기
         this.size = 40;
         this.maxlife = 100;
     }
 
     Particle.prototype.draw = function () {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vy += this.gravity;
+        this.x += this.vx; //x 좌표 속도
+        this.y += this.vy;  // y 좌표 속도
+        this.vy += this.gravity; //떨어지는 속도
         this.size *= .89;
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.size, this.size);
         this.life++;
+        //일정 이상 커지면 삭제
         if (this.life >= this.maxlife) {
             delete Game.particles[this.id];
         }
     };
 
-    Game.init();
+    Game.init(); //init호출
 
 
 }(window));
