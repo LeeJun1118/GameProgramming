@@ -76,6 +76,7 @@
 
         // spacebar 계속 누르는 상태 함수
         keyPressed: function (e) {
+            // === 은 값과 타입이 모두 같아야 true이다
             if (e.keyCode === 32) {
                 // !Game.player.invincible 없어도 실행에 문제 없음
                 if (!Game.player.invincible && !Game.oneShot) {
