@@ -48,7 +48,7 @@
             this.invincibleMode(2000); //첫 시작시 2초간 무적 모드
 
             this.loop(); //루프 함수 실행
-        },
+        },///init끝
 
 
         binding: function () {
@@ -97,8 +97,7 @@
             if (e.keyCode === 32) {
                 Game.shooting = false;
                 //Game.oneShot = false;
-                e.preventDefault();
-            }
+                e.preventDefault();     }
             //   <-  or  A  를 false
             if (e.keyCode === 37 || e.keyCode === 65) {
                 Game.player.movingLeft = false;
@@ -108,19 +107,15 @@
                 Game.player.movingRight = false;
             }
         },
-
         // 버튼을 눌렀을 떄
         buttonDown: function (e) {
-            // spacebar
-            if (e.keyCode === 32) {
+            if (e.keyCode === 32) { //space bar
                 Game.shooting = true;
             }
-            //   <-  or  A
-            if (e.keyCode === 37 || e.keyCode === 65) {
+            if (e.keyCode === 37 || e.keyCode === 65) { //   <-  or  A
                 Game.player.movingLeft = true;
             }
-            //   ->  or  D
-            if (e.keyCode === 39 || e.keyCode === 68) {
+            if (e.keyCode === 39 || e.keyCode === 68) { //   ->  or  D
                 Game.player.movingRight = true;
             }
         },
@@ -130,7 +125,6 @@
             // Math.random 함수는 0 ~ 1까지의 실수를 반환함으로 정수로 나타내기 위해 곱하기를 한후 Math.floor로 정수화 해야한다.
             return Math.floor(Math.random() * (max - min) + min);
         },
-
         // 무적 모드 함수
         invincibleMode: function (s) {
             // 무적으로 만들고
@@ -140,7 +134,6 @@
                 Game.player.invincible = false;
             }, s);
         },
-
         // 충돌 함수
         collision: function (a, b) {
             return !(
@@ -238,7 +231,7 @@
     var Player = function () {
         this.width = 60;
         this.height = 20;
-        this.x = Game.c.width / 2 - this.width / 2;
+        this.x = Game.c.width / 2 - this.width / 2;  //가운데 위치
         this.y = Game.c.height - this.height;
         this.movingLeft = false;
         this.movingRight = false;
