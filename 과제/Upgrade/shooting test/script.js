@@ -1,23 +1,29 @@
-// Color Blast!
-// License MIT
-// © 2014 Nate Wiley
-
 (function (window) {
     var bestScore = 0;//최고 점수
+
+    window.addEventListener("logo", drawScreen,false);
+    window.addEventListener("keydown", onkeydown, true);
+
     var imgBackground = new Image();
-    imgBackground.scr = "img/background.png";
+    imgBackground.src = "img/background.png";
+    imgBackground.addEventListener("load", drawScreen, false);
 
-
+    function drawScreen() {
+        var theCanvas = document.getElementById("game");
+        var Context = theCanvas.getContext("2d");
+        Context.fillStyle = "#000000";
+        Context.fillRect(0, 0, 800, 600);
+        //배경 화면 그리기
+        Context.drawImage(imgBackground, 0, 0);
+        Context.fillStyle = "#ffffff";
+        Context.font = '50px Arial';
+        Context.fillText("Color Blast", 330, 180);
+    }
     var Game = {
 
 
         init: function () {
-            this.c = document.getElementById("game");
-
-            this.c.width = this.c.width;
-            this.c.height = this.c.height;
-            this.ctx = this.c.getContext("2d");
-            this.color = "rgba(20,20,20,.7)"; //  
+            this.screen();
             this.bullets = [];
             this.enemyBullets = [];
             this.enemies = [];
@@ -30,7 +36,7 @@
             this.maxEnemies = 15;
             this.enemiesAlive = 0;
             this.currentFrame = 0;
-            this.maxLives = 3;
+            this.maxLives = 0;
             this.life = 0;
             this.binding();
             this.player = new Player();
@@ -47,8 +53,18 @@
             }
             this.invincibleMode(500);
 
-            this.loop();
         },
+
+
+        screen: function () {
+            this.c = document.getElementById("game");
+
+            this.c.width = this.c.width;
+            this.c.height = this.c.height;
+            this.ctx = this.c.getContext("2d");
+            this.color = "rgba(20,20,20,.7)"; //
+        },
+
 
         binding: function () {
             window.addEventListener("keydown", this.buttonDown);
@@ -163,25 +179,41 @@
             this.ctx.font = "bold 16px Lato, sans-serif";
             this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
         },
+        gameLogo: function () {
+            if (bestScore < this.score)
+                bestScore = this.score;
+            this.isGameOver = true;
+            this.clear();
+            var overMessage = "Color Blast ver-2";
+
+            var noticeMessage = "시작하려면 Spacebar를 누르세요";
+            this.pause();
+            this.ctx.fillStyle = "white";
+            this.ctx.font = "bold 30px Lato, sans-serif";
+            this.ctx.fillText(overMessage, this.c.width / 2 - this.ctx.measureText(overMessage).width / 2, this.c.height / 2 - 50);
+            //this.ctx.fillText(scoreMessage, this.c.width / 2 - this.ctx.measureText(scoreMessage).width / 2, this.c.height / 2 - 5);
+            this.ctx.font = "bold 16px Lato, sans-serif";
+            this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
+        },
 
         updateScore: function () {
             this.ctx.fillStyle = "white";
             this.ctx.font = "16px Lato, sans-serif";
             this.ctx.fillText("Score: " + this.score, 8, 20);
             this.ctx.fillText("Lives: " + (this.maxLives - this.life), 8, 40);
-            this.ctx.fillText("Best Score: " + bestScore,8,60);
+            this.ctx.fillText("Best Score: " + bestScore, 8, 60);
         },
 
         //게임 중
         loop: function () {
             //일시정지가 아니라면
             if (!Game.paused) {
-                Game.clear(); //시작 전에 clear()함수 호출해서 상태들을 초기화
+                Game.clear(); //배경 그리기
                 for (var i in Game.enemies) {
                     var currentEnemy = Game.enemies[i]; //만들어서 배열에 넣어 둔 적 값을 하나씩 넣음
                     currentEnemy.draw();
                     currentEnemy.update();
-                    
+
                     // 게임 프레임%적발사속도(30~80)
                     if (Game.currentFrame % currentEnemy.shootingSpeed === 0) {
                         //적 총알 발사
@@ -413,7 +445,7 @@
         this.gravity = .05;
         this.size = 40;
         this.maxlife = 100;
-    }
+    };
 
     Particle.prototype.draw = function () {
         this.x += this.vx;
@@ -429,6 +461,4 @@
     };
 
     Game.init();
-
-
 }(window));
