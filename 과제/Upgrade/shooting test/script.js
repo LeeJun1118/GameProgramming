@@ -11,13 +11,18 @@
     function drawScreen() {
         var theCanvas = document.getElementById("game");
         var Context = theCanvas.getContext("2d");
+
         Context.fillStyle = "#000000";
-        Context.fillRect(0, 0, 800, 600);
+        //Context.fillRect(0, 0, 1000, 750);
+
         //배경 화면 그리기
         Context.drawImage(imgBackground, 0, 0);
         Context.fillStyle = "#ffffff";
         Context.font = '50px Arial';
-        Context.fillText("Color Blast", 330, 180);
+        Context.fillText("Color Blast", 380, 300);
+
+        Context.font = '20px Arial';
+        Context.fillText("마우스 클릭시 게임 시작",370, 600);
     }
     var Game = {
 
@@ -63,6 +68,7 @@
             this.c.height = this.c.height;
             this.ctx = this.c.getContext("2d");
             this.color = "rgba(20,20,20,.7)"; //
+            //fthis.ctx.drawImage(imgBackground, 0, 0);
         },
 
 
@@ -176,22 +182,6 @@
             this.ctx.font = "bold 30px Lato, sans-serif";
             this.ctx.fillText(overMessage, this.c.width / 2 - this.ctx.measureText(overMessage).width / 2, this.c.height / 2 - 50);
             this.ctx.fillText(scoreMessage, this.c.width / 2 - this.ctx.measureText(scoreMessage).width / 2, this.c.height / 2 - 5);
-            this.ctx.font = "bold 16px Lato, sans-serif";
-            this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
-        },
-        gameLogo: function () {
-            if (bestScore < this.score)
-                bestScore = this.score;
-            this.isGameOver = true;
-            this.clear();
-            var overMessage = "Color Blast ver-2";
-
-            var noticeMessage = "시작하려면 Spacebar를 누르세요";
-            this.pause();
-            this.ctx.fillStyle = "white";
-            this.ctx.font = "bold 30px Lato, sans-serif";
-            this.ctx.fillText(overMessage, this.c.width / 2 - this.ctx.measureText(overMessage).width / 2, this.c.height / 2 - 50);
-            //this.ctx.fillText(scoreMessage, this.c.width / 2 - this.ctx.measureText(scoreMessage).width / 2, this.c.height / 2 - 5);
             this.ctx.font = "bold 16px Lato, sans-serif";
             this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
         },
@@ -374,12 +364,17 @@
             }
         }
 
+        if(this.y >= Game.c.height){
+            this.die();
+        }
+
         for (var i in Game.bullets) {
             var currentBullet = Game.bullets[i];
             if (Game.collision(currentBullet, this)) {
                 this.die();
                 delete Game.bullets[i];
             }
+
         }
     };
 
@@ -426,6 +421,7 @@
 
     EnemyBullet.prototype.update = function () {
         this.y += this.vy;
+
         if (this.y > Game.c.height) {
             delete Game.enemyBullets[this.index];
         }
