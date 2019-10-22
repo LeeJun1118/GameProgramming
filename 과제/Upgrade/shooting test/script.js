@@ -1,12 +1,13 @@
 (function (window) {
     var bestScore = 0;//최고 점수
 
-    window.addEventListener("logo", drawScreen,false);
+    window.addEventListener("logo", drawScreen, false);
     window.addEventListener("keydown", onkeydown, true);
 
     var imgBackground = new Image();
     imgBackground.src = "img/background.png";
     imgBackground.addEventListener("load", drawScreen, false);
+
 
     function drawScreen() {
         var theCanvas = document.getElementById("game");
@@ -22,8 +23,9 @@
         Context.fillText("Color Blast", 380, 300);
 
         Context.font = '20px Arial';
-        Context.fillText("마우스 클릭시 게임 시작",370, 600);
+        Context.fillText("마우스 두번 클릭시 게임 시작", 370, 600);
     }
+
     var Game = {
 
 
@@ -37,11 +39,11 @@
             this.enemyBulletIndex = 0;
             this.enemyIndex = 0;
             this.particleIndex = 0;
-            this.maxParticles = 10;
-            this.maxEnemies = 15;
+            this.maxParticles = 5;
+            this.maxEnemies = 10;
             this.enemiesAlive = 0;
             this.currentFrame = 0;
-            this.maxLives = 0;
+            this.maxLives = 5;
             this.life = 0;
             this.binding();
             this.player = new Player();
@@ -52,6 +54,7 @@
             this.isGameOver = false;
             this.requestAnimationFrame = window.requestAnimationFrame ||
                 window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
+
             for (var i = 0; i < this.maxEnemies; i++) {
                 new Enemy();
                 this.enemiesAlive++;
@@ -62,6 +65,7 @@
 
 
         screen: function () {
+            //drawscreen();
             this.c = document.getElementById("game");
 
             this.c.width = this.c.width;
@@ -69,6 +73,8 @@
             this.ctx = this.c.getContext("2d");
             this.color = "rgba(20,20,20,.7)"; //
             //fthis.ctx.drawImage(imgBackground, 0, 0);
+
+
         },
 
 
@@ -118,6 +124,14 @@
             if (e.keyCode === 39 || e.keyCode === 68) {
                 Game.player.movingRight = false;
             }
+
+            if (e.keyCode === 38 || e.keyCode === 87) {
+                Game.player.movingUp = false;
+            }
+            if (e.keyCode === 40 || e.keyCode === 83) {
+                Game.player.movingDown = false;
+            }
+
         },
 
         buttonDown: function (e) {
@@ -129,6 +143,12 @@
             }
             if (e.keyCode === 39 || e.keyCode === 68) {
                 Game.player.movingRight = true;
+            }
+            if (e.keyCode === 38 || e.keyCode === 87) {
+                Game.player.movingUp = true;
+            }
+            if (e.keyCode === 40 || e.keyCode === 83) {
+                Game.player.movingDown = true;
             }
         },
 
@@ -170,27 +190,35 @@
 
 //game Over
         gameOver: function () {
+            drawScreen();
             if (bestScore < this.score)
                 bestScore = this.score;
             this.isGameOver = true;
             this.clear();
             var overMessage = "Game Over";
             var scoreMessage = "Score: " + Game.score;
-            var noticeMessage = "Click or press Spacebar to Play Again";
+            //var noticeMessage = "Click or press Spacebar to Play Again";
             this.pause();
             this.ctx.fillStyle = "white";
             this.ctx.font = "bold 30px Lato, sans-serif";
             this.ctx.fillText(overMessage, this.c.width / 2 - this.ctx.measureText(overMessage).width / 2, this.c.height / 2 - 50);
             this.ctx.fillText(scoreMessage, this.c.width / 2 - this.ctx.measureText(scoreMessage).width / 2, this.c.height / 2 - 5);
             this.ctx.font = "bold 16px Lato, sans-serif";
-            this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
+            //this.ctx.fillText(noticeMessage, this.c.width / 2 - this.ctx.measureText(noticeMessage).width / 2, this.c.height / 2 + 30);
         },
 
         updateScore: function () {
+            var currentLife = this.maxLives - this.life
             this.ctx.fillStyle = "white";
             this.ctx.font = "16px Lato, sans-serif";
             this.ctx.fillText("Score: " + this.score, 8, 20);
-            this.ctx.fillText("Lives: " + (this.maxLives - this.life), 8, 40);
+
+            //목숨이 3개 남으면 빨간색으로 표시
+            if (currentLife < 3)
+                this.ctx.fillStyle = "red";
+            this.ctx.fillText("Lives: " + currentLife, 8, 40);
+
+            this.ctx.fillStyle = "white";
             this.ctx.fillText("Best Score: " + bestScore, 8, 60);
         },
 
@@ -207,7 +235,8 @@
                     // 게임 프레임%적발사속도(30~80)
                     if (Game.currentFrame % currentEnemy.shootingSpeed === 0) {
                         //적 총알 발사
-                        currentEnemy.shoot();
+                        if (currentEnemy.y > -5)
+                            currentEnemy.shoot();
                     }
                 }
                 //적 총알 만들기
@@ -233,6 +262,7 @@
                     Game.particles[i].draw();
                 }
                 Game.player.update();
+                //drawScreen();
                 Game.updateScore();
                 Game.currentFrame = Game.requestAnimationFrame.call(window, Game.loop);
             }
@@ -242,11 +272,14 @@
 
 
     var Player = function () {
+        var currentLife = this.maxLives - this.life;
         this.width = 60;
         this.height = 20;
         this.x = Game.c.width / 2 - this.width / 2;
         this.y = Game.c.height - this.height;
         this.movingLeft = false;
+        this.movingRight = false;
+        this.movingRight = false;
         this.movingRight = false;
         this.speed = 8;
         this.invincible = false;
@@ -278,6 +311,14 @@
         if (this.movingRight && this.x + this.width < Game.c.width) {
             this.x += this.speed;
         }
+
+        if (this.movingUp && this.y > 0) {
+            this.y -= this.speed;
+        }
+        if (this.movingDown && this.y + this.height < Game.c.height) {
+            this.y += this.speed;
+        }
+
         if (Game.shooting && Game.currentFrame % 10 === 0) {
             this.shoot();
         }
@@ -288,20 +329,28 @@
                 delete Game.enemyBullets[i];
             }
         }
+
+        for (var i in Game.enemies) {
+            var currentEnemy = Game.enemies[i];
+            if (Game.collision(currentEnemy, this) && !Game.player.invincible) {
+                this.die();
+            }
+        }
+
     };
 
 
     Player.prototype.shoot = function () {
-        Game.bullets[Game.bulletIndex] = new Bullet(this.x + this.width / 2);
+        Game.bullets[Game.bulletIndex] = new Bullet(this.x + this.width / 2, this.y);
         Game.bulletIndex++;
     };
 
 
-    var Bullet = function (x) {
+    var Bullet = function (x, y) {
         this.width = 8;
         this.height = 20;
         this.x = x;
-        this.y = Game.c.height - 10;
+        this.y = y;
         this.vy = 8;
         this.index = Game.bulletIndex;
         this.active = true;
@@ -328,7 +377,7 @@
         this.width = 60;
         this.height = 20;
         this.x = Game.random(0, (Game.c.width - this.width));
-        this.y = Game.random(10, 40);
+        this.y = Game.random(-100, 0);
         this.vy = Game.random(1, 10) * .1;
         this.index = Game.enemyIndex;
         Game.enemies[Game.enemyIndex] = this;
@@ -364,7 +413,7 @@
             }
         }
 
-        if(this.y >= Game.c.height){
+        if (this.y + 10 >= Game.c.height) {
             this.die();
         }
 
@@ -374,8 +423,11 @@
                 this.die();
                 delete Game.bullets[i];
             }
-
         }
+
+        if (Game.collision(Game.player, this))
+            this.die();
+
     };
 
     Enemy.prototype.die = function () {
