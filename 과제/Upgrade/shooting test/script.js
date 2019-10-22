@@ -1,20 +1,19 @@
 (function (window) {
     var bestScore = 0;//최고 점수
 
-    window.addEventListener("logo", drawScreen, false);
+    window.addEventListener("logo", drawLogo, false);
     window.addEventListener("keydown", onkeydown, true);
 
     var imgBackground = new Image();
     imgBackground.src = "img/background.png";
-    imgBackground.addEventListener("load", drawScreen, false);
+    imgBackground.addEventListener("load", drawLogo, false);
 
 
-    function drawScreen() {
+    function drawLogo() {
         var theCanvas = document.getElementById("game");
         var Context = theCanvas.getContext("2d");
 
         Context.fillStyle = "#000000";
-        //Context.fillRect(0, 0, 1000, 750);
 
         //배경 화면 그리기
         Context.drawImage(imgBackground, 0, 0);
@@ -23,7 +22,8 @@
         Context.fillText("Color Blast", 380, 300);
 
         Context.font = '20px Arial';
-        Context.fillText("마우스 두번 클릭시 게임 시작", 370, 600);
+        Context.fillText("마우스 두번 클릭시 게임 시작", 370, 400);
+        Context.fillText("방향키와 스페이스바 또는 wasd와 스페이스바를 사용", 260, 600);
     }
 
     var Game = {
@@ -40,9 +40,9 @@
             this.enemyIndex = 0;
             this.particleIndex = 0;
             this.maxParticles = 5;
-            this.maxEnemies = 10;
             this.enemiesAlive = 0;
             this.currentFrame = 0;
+            this.maxEnemies = 12;
             this.maxLives = 5;
             this.life = 0;
             this.binding();
@@ -190,7 +190,7 @@
 
 //game Over
         gameOver: function () {
-            drawScreen();
+            drawLogo();
             if (bestScore < this.score)
                 bestScore = this.score;
             this.isGameOver = true;
@@ -360,6 +360,7 @@
 
 
     Bullet.prototype.draw = function () {
+
         Game.ctx.fillStyle = this.color;
         Game.ctx.fillRect(this.x, this.y, this.width, this.height);
     };
@@ -377,7 +378,7 @@
         this.width = 60;
         this.height = 20;
         this.x = Game.random(0, (Game.c.width - this.width));
-        this.y = Game.random(-100, 0);
+        this.y = Game.random(-50, -10);
         this.vy = Game.random(1, 10) * .1;
         this.index = Game.enemyIndex;
         Game.enemies[Game.enemyIndex] = this;
@@ -413,8 +414,9 @@
             }
         }
 
-        if (this.y + 10 >= Game.c.height) {
+        if (this.y + 30 >= Game.c.height) {
             this.die();
+            Game.life++;
         }
 
         for (var i in Game.bullets) {
