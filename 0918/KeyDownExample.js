@@ -11,7 +11,7 @@ function drawScreen() {
     Context.fillStyle="#000000";
     Context.fillRect(0,0,800,600);
     Context.fillStyle="#ffffff";
-    Context.font = '25px Arial';
+    Context.font = '25px d2coding';
     Context.textBaseline = "top";
     Context.fillText("입력된 키 : " + strKeyEventValue,5,5);
     Context.fillText("키 입력 상태 : " + strKeyEventType,5,30);

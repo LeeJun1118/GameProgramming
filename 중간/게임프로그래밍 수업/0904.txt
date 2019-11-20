@@ -1,0 +1,27 @@
+이번 주 수강신청 정정기간입니다
+
+외부 방화벽 때문에 교외에서는 FTP가 접속이 안 됩니다.
+(LMS에도 올리겠습니다.)
+
+http://www.w3schools.com
+
+d2coding 폰트 설치
+
+github 회원 가입 후 교수용 컴퓨터에 자신의 주소 입력하세요.
+
+협업툴을 이용하여 게임 개발과정을 정리하면 최대 3점입니다.
+
+
+"0904" 저장소 만드세요
+매 주 만드는 파일은 "날짜 저장소"에 업로드 하세요.
+
+필요하면 다른 에디터를 사용하겠지만
+(여러분이 좋아하는 에디터를 쓰세요)
+지금은 sublimetext를 사용하겠습니다.
+
+폰트 변경 : Preference - Settings
+왼쪽에 있는 font-face와 font-size 오른쪽으로 복사 후 편집
+
+패키지 설치
+Preference - Package Control - Install package
+

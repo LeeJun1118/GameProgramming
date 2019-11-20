@@ -8,9 +8,9 @@ var GAME_STATE_OVER = 2;//게임 오버
 //게임 상태값을 저장하는 변수
 var GameState = GAME_STATE_READY;//초기 값은 준비 상태
 
-var imgBackgournd = new Image();
-imgBackgournd.src = "img/background.png";
-imgBackgournd.addEventListener("load", drawScreen, false);
+var imgBackground = new Image();
+imgBackground.src = "img/background.png";
+imgBackground.addEventListener("load", drawScreen, false);
 
 var imgPlayer = new Image();
 imgPlayer.src = "img/player.png";
@@ -55,7 +55,7 @@ function drawScreen() {
     Context.fillRect(0, 0, 800, 600);
 
     //배경 화면 그리기
-    Context.drawImage(imgBackgournd, 0, 0);
+    Context.drawImage(imgBackground, 0, 0);
 
     //플레이어 그리기
     Context.drawImage(imgPlayer, intPlayerX, intPlayerY);
